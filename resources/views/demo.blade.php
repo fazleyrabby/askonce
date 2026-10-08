@@ -15,8 +15,9 @@ $items = [
     ['label' => 'I confirm these details are correct', 'status' => 'Pending', 'help' => null, 'answer' => null],
 ];
 @endphp
-<p class="demo-banner" role="note">This is a demo with sample data. Nothing here is saved and no emails are sent.</p>
-<div class="page-heading"><div><h1>Requests</h1><p class="intro">North Studio</p></div><a class="button" href="{{ route('register') }}">Create your free account</a></div>
+<div class="demo-start"><div><h1>Try AskOnce.</h1><p class="intro">Open a private demo workspace with sample clients and requests. Create a request, open the client link, and fill it in yourself. No sign-up, no emails sent, deleted after {{ App\Actions\Demo\StartDemoWorkspace::LIFETIME_HOURS }} hours.</p></div><form method="post" action="{{ route('demo.start') }}">@csrf<button class="button">Open the live demo</button></form></div>
+<p class="demo-banner" role="note">Or look first: this is what a workspace looks like, with sample data.</p>
+<div class="page-heading"><div><h2>Requests</h2><p class="intro">North Studio</p></div></div>
 <div class="request-list">
 @foreach($requests as $request)
 <div class="request-row"><div><h2>{{ $request['title'] }}</h2><p>{{ $request['client'] }} <span class="status-label">{{ $request['status'] }}</span></p></div><div class="request-progress"><progress value="{{ $request['submitted'] }}" max="{{ $request['total'] }}" aria-label="Items submitted"></progress><span>{{ $request['submitted'] }} / {{ $request['total'] }} submitted</span></div><span>{{ $request['due'] }}</span></div>
@@ -33,5 +34,5 @@ $items = [
 </section>
 @endforeach
 </section>
-<div class="demo-close"><a class="button" href="{{ route('register') }}">Start your first request</a></div>
+<div class="demo-close"><form method="post" action="{{ route('demo.start') }}">@csrf<button class="button">Open the live demo</button></form><a href="{{ route('register') }}">Create your free account</a></div>
 @endsection

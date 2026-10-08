@@ -27,6 +27,7 @@
     @endauth
 </header>
 <main id="main" class="@yield('main-class', 'content')">
+    @if(app(App\Support\CurrentOrganization::class)->current()?->is_demo)<p class="demo-banner" role="note">You’re in a demo workspace with sample data. Emails aren’t really sent, and everything here is deleted after {{ App\Actions\Demo\StartDemoWorkspace::LIFETIME_HOURS }} hours. Sign out when you’re ready to create a free account.</p>@endif
     @if(session('status'))<div class="notice" role="status">{{ session('status') }}</div>@endif
     @if($errors->any())
         <div class="error-summary" role="alert"><strong>Please check your details.</strong><ul>@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>

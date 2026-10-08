@@ -85,10 +85,15 @@ class DeliverRequestMail implements ShouldQueue
                     }
                     $owner = $organization->users()->wherePivot('role', 'owner')->firstOrFail();
                     if ($business) {
-                        Mail::to($owner->email)->send(new BusinessUpdateMail($request->title, substr($delivery->kind, 9), route('requests.show', $request)));
+                        if (! $organization->is_demo) {
+                            Mail::to($owner->email)->send(new BusinessUpdateMail($request->title, substr($delivery->kind, 9), route('requests.show', $request)));
+                        }
                     } else {
                         $mail = $delivery->kind === 'request' ? new ClientRequestMail($request->title, $request->publicUrl(), $organization->name, $owner->email, $request->client->contact_name) : new ReminderMail($request->title, $request->publicUrl(), $organization->name, $owner->email, $request->client->contact_name, $request->items()->where('required', true)->where('status', 'pending')->pluck('label')->all(), $request->items()->where('status', 'submitted')->count(), $request->items()->count(), route('public-request.stop', ['token' => $request->token]));
-                        Mail::to($request->client->email)->send($mail);
+                        /** Demo workspaces follow the full delivery flow but never send real email. */
+                        if (! $organization->is_demo) {
+                            Mail::to($request->client->email)->send($mail);
+                        }
                         app(RecordActivity::class)->record($delivery->kind === 'request' ? 'request_sent' : 'reminder_sent', $request->organization_id, $request->id, 'delivery:'.$delivery->id);
                         if ($delivery->kind === 'reminder') {
                             $request->reminders_sent++;

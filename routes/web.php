@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DemoLoginController;
+use App\Http\Controllers\DemoWorkspaceController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PublicRequestController;
 use App\Http\Controllers\RequestController;
@@ -17,6 +18,7 @@ Route::view('/demo', 'demo')->name('demo');
 Route::view('/privacy', 'privacy')->name('privacy');
 Route::view('/terms', 'terms')->name('terms');
 Route::middleware('guest')->group(function () {
+    Route::post('/demo/start', DemoWorkspaceController::class)->middleware('throttle:3,1')->name('demo.start');
     Route::post('/demo-login', DemoLoginController::class)->middleware('throttle:5,1')->name('demo.login');
     Route::view('/register', 'auth.register')->name('register');
     Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:5,1');

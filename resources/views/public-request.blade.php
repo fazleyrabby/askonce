@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="csrf-token" content="{{ csrf_token() }}"><title>{{ $clientRequest->title }} · {{ $organization->name }}</title>{{ Illuminate\Support\Facades\Vite::fonts() }}@vite(['resources/css/app.css','resources/js/public-request.js'])</head>
-<body><main class="client-content"><div class="client-business">{{ $organization->name }}</div><h1>{{ $clientRequest->title }}</h1><p class="intro">Requested by {{ $organization->name }} · <a href="mailto:{{ $contactEmail }}">{{ $contactEmail }}</a></p>
+<body><main class="client-content">@if($organization->is_demo)<p class="demo-banner" role="note">This is a sample request from an AskOnce demo. Don’t share real information here.</p>@endif<div class="client-business">{{ $organization->name }}</div><h1>{{ $clientRequest->title }}</h1><p class="intro">Requested by {{ $organization->name }} · <a href="mailto:{{ $contactEmail }}">{{ $contactEmail }}</a></p>
 @if($clientRequest->status === 'completed')
 <div class="thank-you"><h2>Thank you. Everything’s in.</h2><p>Your request is complete. If you need to make a change, contact {{ $organization->name }}.</p></div>
 @elseif(in_array($clientRequest->status,['cancelled','expired']))

@@ -13,6 +13,11 @@ class Organization extends Model
 
     protected $fillable = ['name', 'timezone'];
 
+    protected function casts(): array
+    {
+        return ['is_demo' => 'boolean'];
+    }
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class)->withPivot('role')->withTimestamps();

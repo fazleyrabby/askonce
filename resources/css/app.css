@@ -168,5 +168,8 @@ progress::-webkit-progress-bar { background:var(--line); border-radius:3px; } pr
 .demo-request { margin-top:64px; }
 .demo-request .request-description { color:var(--muted); }
 div.request-row:hover { background:none; }
-.demo-close { margin-top:48px; }
+.demo-close { margin-top:48px; display:flex; align-items:center; flex-wrap:wrap; gap:14px 24px; }
+.demo-start { display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:24px 48px; margin-bottom:56px; }
+.demo-start .intro { max-width:58ch; margin-bottom:0; }
+.demo-banner a { font-weight:600; }
 @media(max-width:640px) { .visits { float:none; display:block; margin-top:10px; } }

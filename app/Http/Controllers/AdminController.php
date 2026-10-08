@@ -12,9 +12,9 @@ class AdminController extends Controller
     public function __invoke(): View
     {
         return view('admin.dashboard', [
-            'organizations' => Organization::withCount('users')->latest()->paginate(20),
-            'userCount' => User::count(),
-            'requestCount' => ClientRequest::withoutGlobalScope('organization')->count(),
+            'organizations' => Organization::where('is_demo', false)->withCount('users')->latest()->paginate(20),
+            'userCount' => User::whereDoesntHave('organizations', fn ($query) => $query->where('is_demo', true))->count(),
+            'requestCount' => ClientRequest::withoutGlobalScope('organization')->whereNotIn('organization_id', Organization::where('is_demo', true)->select('id'))->count(),
         ]);
     }
 }
