@@ -52,6 +52,10 @@ class SaveItem
                         ]);
                     }
                     $item->status = 'submitted';
+                    $warningPercent = config('app.limits.storage_warning_percent');
+                    if (Upload::sum('size') >= $organization->storage_quota_bytes * $warningPercent / 100) {
+                        app(RequestAutomation::class)->notify($request, 'storage', "Your storage is over {$warningPercent}% full. Delete requests you no longer need to free space.", 'storage-warning:'.$organization->id.':'.now()->toDateString());
+                    }
                 } else {
                     $submission->value = $item->type === 'confirmation' ? ($data['value'] ? '1' : null) : ($data['value'] ?? null);
                     $submission->save();

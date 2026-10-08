@@ -202,3 +202,7 @@ div.request-row:hover { background:none; }
 .landing-pricing p { margin:0 0 12px; color:var(--muted); max-width:60ch; }
 .landing-pricing .landing-price { font-family:Georgia,serif; font-size:28px; line-height:1.25; color:var(--ink); }
 @media(max-width:800px) { .landing-pricing { grid-template-columns:1fr; gap:8px; padding:40px 0; } }
+.usage-list { margin:16px 0; }
+.usage-list > div { display:flex; justify-content:space-between; gap:24px; padding:10px 0; border-top:1px solid var(--line); font-size:14px; }
+.usage-list dt { color:var(--muted); }
+.usage-list dd { margin:0; font-variant-numeric:tabular-nums; }

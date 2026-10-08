@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Reminders\RequestAutomation;
+use App\Models\Client;
 use App\Models\ClientRequest;
 use App\Models\Upload;
 use App\Support\CurrentOrganization;
@@ -15,7 +16,13 @@ class SettingsController extends Controller
 {
     public function edit(): View
     {
-        return view('settings.edit', ['organization' => app(CurrentOrganization::class)->get(), 'usedBytes' => Upload::sum('size')]);
+        $organization = app(CurrentOrganization::class)->get();
+
+        return view('settings.edit', [
+            'organization' => $organization, 'usedBytes' => Upload::sum('size'), 'limits' => config('app.limits'),
+            'clientCount' => Client::count(), 'openRequestCount' => ClientRequest::whereIn('status', ['draft', 'sent', 'in_progress'])->count(),
+            'clientEmailsToday' => app(RequestAutomation::class)->clientEmailsToday($organization->id),
+        ]);
     }
 
     public function update(Request $request, RequestAutomation $automation): RedirectResponse

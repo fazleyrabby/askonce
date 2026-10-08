@@ -15,6 +15,10 @@ class ClientController extends Controller
 
     public function store(Request $request)
     {
+        $limit = config('app.limits.clients');
+        if (Client::count() >= $limit) {
+            return back()->withInput()->withErrors(['limit' => "The free beta includes up to {$limit} clients."]);
+        }
         Client::create($this->validated($request));
 
         return redirect()->route('clients.index')->with('status', 'Client added.');

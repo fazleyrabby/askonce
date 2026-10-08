@@ -2,6 +2,17 @@
 
 return [
     'backups_enabled' => env('BACKUPS_ENABLED', false),
+
+    /*
+    | Free beta allowances for each business. Storage is set per organization
+    | in the database; these apply to every business alike.
+    */
+    'limits' => [
+        'clients' => 50,
+        'open_requests' => 25,
+        'client_emails_per_day' => 100,
+        'storage_warning_percent' => 80,
+    ],
     'backup_disk' => env('BACKUP_DISK'),
 
     /*
