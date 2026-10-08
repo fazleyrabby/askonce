@@ -27,7 +27,12 @@
 </div>
 @endif
 @endif
-@foreach($deliveries as $delivery)<p class="field-help">{{ str_starts_with($delivery->kind,'business:') ? 'Business update' : ucfirst($delivery->kind) }} · {{ $delivery->status }} · {{ $delivery->created_at }}</p>@endforeach
+@if($deliveries->isNotEmpty())
+<h3 class="delivery-heading">Email history</h3>
+<ul class="delivery-list">
+@foreach($deliveries as $delivery)<li><span>{{ str_starts_with($delivery->kind,'business:') ? 'Update to you' : ucfirst($delivery->kind).' to client' }}</span><span class="status-pill status-pill-{{ $delivery->status === 'sent' ? 'submitted' : 'pending' }}">{{ $delivery->status }}</span><time datetime="{{ Illuminate\Support\Carbon::parse($delivery->created_at)->toIso8601String() }}">{{ Illuminate\Support\Carbon::parse($delivery->created_at)->timezone(app(App\Support\CurrentOrganization::class)->get()->timezone)->format('M j, g:i a') }}</time></li>@endforeach
+</ul>
+@endif
 </section>
 @foreach($clientRequest->items as $item)
 <section class="answer-row"><div class="answer-heading"><h2>{{ $item->label }}</h2><span class="status-pill status-pill-{{ $item->status === 'submitted' ? 'submitted' : 'pending' }}">{{ $item->status }}{{ $item->required ? '' : ' · optional' }}</span></div>
