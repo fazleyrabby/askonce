@@ -34,6 +34,6 @@
     @endif
     @yield('content')
 </main>
-<footer class="footer">AskOnce · A little less chasing. <a href="{{ route('privacy') }}">Privacy</a> <a href="{{ route('terms') }}">Beta terms</a>@if(request()->routeIs('home', 'demo'))<span class="visits" title="Total visits" data-visits hidden>Visits <span data-visits-count aria-live="polite"></span></span>@endif</footer>
+<footer class="footer">AskOnce · A little less chasing. <a href="{{ route('home') }}#pricing">Pricing</a> <a href="{{ route('privacy') }}">Privacy</a> <a href="{{ route('terms') }}">Beta terms</a>@if(request()->routeIs('home', 'demo'))<span class="visits" title="Total visits" data-visits hidden>Visits <span data-visits-count aria-live="polite"></span></span>@endif</footer>
 </body>
 </html>

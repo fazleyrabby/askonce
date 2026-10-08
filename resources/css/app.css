@@ -197,3 +197,8 @@ div.request-row:hover { background:none; }
 .delivery-list li { display:grid; grid-template-columns:minmax(0,1fr) auto 120px; align-items:center; gap:16px; padding:9px 0; border-top:1px solid var(--line); }
 .delivery-list time { color:var(--muted); text-align:right; font-variant-numeric:tabular-nums; }
 @media(max-width:640px) { .delivery-list li { grid-template-columns:minmax(0,1fr) auto; gap:4px 12px; } .delivery-list time { grid-column:1 / -1; text-align:left; } }
+.landing-pricing { display:grid; grid-template-columns:1fr 2fr; gap:48px; padding:48px 0; border-top:1px solid var(--line); scroll-margin-top:24px; }
+.landing-pricing h2 { margin-top:0; }
+.landing-pricing p { margin:0 0 12px; color:var(--muted); max-width:60ch; }
+.landing-pricing .landing-price { font-family:Georgia,serif; font-size:28px; line-height:1.25; color:var(--ink); }
+@media(max-width:800px) { .landing-pricing { grid-template-columns:1fr; gap:8px; padding:40px 0; } }

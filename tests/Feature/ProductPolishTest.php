@@ -16,7 +16,7 @@ class ProductPolishTest extends TestCase
 
     public function test_public_pages_and_free_beta_signup_are_available(): void
     {
-        $this->get('/')->assertOk()->assertSee('Start your first request');
+        $this->get('/')->assertOk()->assertSee('Start your first request')->assertSee('Free while in beta.');
         $this->get('/privacy')->assertOk();
         $this->get('/terms')->assertOk();
     }
