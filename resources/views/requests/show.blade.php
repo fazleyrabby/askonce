@@ -39,7 +39,7 @@
 @endforeach
 <div class="request-actions">
 @if(in_array($clientRequest->status,['completed','expired','cancelled']))
-<form method="post" action="{{ route('requests.state',$clientRequest) }}">@csrf<input type="hidden" name="action" value="reopen"><button class="button">Reopen request</button><p class="field-help">Reopening clears the old due date.</p></form>
+<form method="post" action="{{ route('requests.state',$clientRequest) }}">@csrf<input type="hidden" name="action" value="reopen"><button class="quiet-button">Reopen request</button></form><p class="field-help request-actions-note">Reopening clears the old due date.</p>
 @else
 @foreach(['complete'=>'Mark complete','cancel'=>'Close request'] as $action=>$label)<form method="post" action="{{ route('requests.state',$clientRequest) }}">@csrf<input type="hidden" name="action" value="{{ $action }}"><button class="{{ $action === 'complete' ? 'quiet-button' : 'link-button' }}">{{ $label }}</button></form>@endforeach
 @endif

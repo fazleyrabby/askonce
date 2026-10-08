@@ -191,4 +191,4 @@ div.request-row:hover { background:none; }
 .request-actions { align-items:center; gap:12px 24px; padding-top:8px; }
 .request-actions-danger { margin-left:auto; }
 @media(max-width:640px) { .request-actions-danger { margin-left:0; flex-basis:100%; } .action-row .link-button { margin-left:0; } }
-
+.request-actions-note { order:1; flex-basis:100%; margin:0; }
