@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn () => auth()->check() ? redirect()->route('dashboard') : view('welcome'))->name('home');
 Route::view('/demo', 'demo')->name('demo');
+Route::get('/robots.txt', fn () => response("User-agent: *\nDisallow:\n\nSitemap: ".route('sitemap')."\n", 200, ['Content-Type' => 'text/plain']))->name('robots');
+Route::get('/sitemap.xml', fn () => response()->view('sitemap', ['urls' => [route('home'), route('demo'), route('privacy'), route('terms')]])->header('Content-Type', 'application/xml'))->name('sitemap');
 Route::view('/privacy', 'privacy')->name('privacy');
 Route::view('/terms', 'terms')->name('terms');
 Route::middleware('guest')->group(function () {

@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title','Beta privacy notice')
+@section('description', 'How AskOnce stores, protects and deletes business and client information during the beta.')
 @section('main-class','form-content')
 @section('content')
 <h1>Beta privacy notice</h1><p class="intro">How the AskOnce application handles information.</p>

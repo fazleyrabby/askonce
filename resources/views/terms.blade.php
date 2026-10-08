@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title','Beta terms')
+@section('description', 'The terms for using AskOnce during the free beta.')
 @section('main-class','form-content')
 @section('content')
 <h1>Beta terms</h1><p class="intro">AskOnce is a free beta for collecting client material.</p>

@@ -4,6 +4,26 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'AskOnce') · AskOnce</title>
+    <meta name="description" content="@yield('description', 'Collect files, answers and links from clients with one simple link. Automatic reminders for what’s still missing. No client login.')">
+    @if(request()->routeIs('home', 'demo', 'privacy', 'terms'))
+    <link rel="canonical" href="{{ url()->current() }}">
+    @else
+    <meta name="robots" content="noindex">
+    @endif
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AskOnce">
+    <meta property="og:title" content="@yield('title', 'AskOnce') · AskOnce">
+    <meta property="og:description" content="@yield('description', 'Collect files, answers and links from clients with one simple link. Automatic reminders for what’s still missing. No client login.')">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:image" content="{{ asset('og-image.png') }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="AskOnce. Ask once. Stop chasing.">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="48x48">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('icon-192.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
+    <meta name="theme-color" content="#faf9f6">
     {{ Illuminate\Support\Facades\Vite::fonts() }}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>

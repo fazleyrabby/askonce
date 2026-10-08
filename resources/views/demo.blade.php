@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Demo')
+@section('description', 'Try AskOnce in a private demo workspace with sample clients and requests. No sign-up, and no emails are sent.')
 @section('content')
 @php
 $requests = [

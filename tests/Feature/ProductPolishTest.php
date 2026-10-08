@@ -21,6 +21,27 @@ class ProductPolishTest extends TestCase
         $this->get('/terms')->assertOk();
     }
 
+    public function test_public_pages_carry_sharing_details_and_private_pages_are_not_indexed(): void
+    {
+        $this->get('/')->assertOk()
+            ->assertSee('<meta name="description" content="Collect files, answers and links', false)
+            ->assertSee('<meta property="og:image" content="'.asset('og-image.png').'">', false)
+            ->assertSee('<link rel="canonical" href="'.route('home').'">', false)
+            ->assertDontSee('noindex');
+        $this->get('/demo')->assertOk()->assertSee('Try AskOnce in a private demo workspace', false)->assertDontSee('noindex');
+        $this->get('/login')->assertOk()->assertSee('<meta name="robots" content="noindex">', false)->assertDontSee('rel="canonical"', false);
+        $this->get('/register')->assertOk()->assertSee('<meta name="robots" content="noindex">', false);
+        $this->assertFileExists(public_path('og-image.png'));
+    }
+
+    public function test_robots_and_sitemap_list_only_public_pages(): void
+    {
+        $this->get('/robots.txt')->assertOk()->assertSee('Sitemap: '.route('sitemap'));
+        $this->get('/sitemap.xml')->assertOk()->assertHeader('Content-Type', 'application/xml')
+            ->assertSee('<loc>'.route('home').'</loc>', false)->assertSee('<loc>'.route('demo').'</loc>', false)
+            ->assertDontSee('login')->assertDontSee('register');
+    }
+
     public function test_guests_can_view_the_sample_demo_without_an_account(): void
     {
         $this->get('/')->assertOk()->assertSee(route('demo'))->assertSee('data-visits', false);
