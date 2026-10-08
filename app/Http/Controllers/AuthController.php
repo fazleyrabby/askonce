@@ -24,7 +24,7 @@ class AuthController extends Controller
             'business_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users'],
             'timezone' => ['required', 'timezone'],
-            'password' => ['required', 'confirmed', PasswordRule::min(8)],
+            'password' => ['required', 'confirmed', PasswordRule::defaults()],
         ]);
         $user = $register->handle($data);
         Auth::login($user);
@@ -82,7 +82,7 @@ class AuthController extends Controller
     {
         $data = $request->validate([
             'token' => ['required'], 'email' => ['required', 'email'],
-            'password' => ['required', 'confirmed', PasswordRule::min(8)],
+            'password' => ['required', 'confirmed', PasswordRule::defaults()],
         ]);
         $status = Password::reset($data, function (User $user, string $password) {
             $user->forceFill(['password' => Hash::make($password), 'remember_token' => Str::random(60)])->save();
