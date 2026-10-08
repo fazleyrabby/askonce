@@ -1,0 +1,37 @@
+@extends('layouts.app')
+@section('title', 'Demo')
+@section('content')
+@php
+$requests = [
+    ['title' => 'Website content', 'client' => 'ABC Restaurant', 'status' => 'In progress', 'submitted' => 3, 'total' => 5, 'due' => 'Due in 4 days'],
+    ['title' => 'Brand photoshoot brief', 'client' => 'Bloom Florist', 'status' => 'Sent', 'submitted' => 0, 'total' => 4, 'due' => 'Due in 9 days'],
+    ['title' => 'Tax season documents', 'client' => 'Oak & Co.', 'status' => 'Completed', 'submitted' => 6, 'total' => 6, 'due' => 'No due date'],
+];
+$items = [
+    ['label' => 'Company logo', 'status' => 'Submitted', 'help' => 'A high-resolution PNG or JPG works well.', 'answer' => 'abc-restaurant-logo.png · 248 KB'],
+    ['label' => 'About your business', 'status' => 'Submitted', 'help' => null, 'answer' => 'Family-run since 1998. Wood-fired cooking, a short seasonal menu, and a room that seats forty.'],
+    ['label' => 'Contact phone number', 'status' => 'Submitted', 'help' => null, 'answer' => '555 0100'],
+    ['label' => 'Menu PDF', 'status' => 'Pending', 'help' => 'The current dinner menu is enough for now.', 'answer' => null],
+    ['label' => 'I confirm these details are correct', 'status' => 'Pending', 'help' => null, 'answer' => null],
+];
+@endphp
+<p class="demo-banner" role="note">This is a demo with sample data. Nothing here is saved and no emails are sent.</p>
+<div class="page-heading"><div><h1>Requests</h1><p class="intro">North Studio</p></div><a class="button" href="{{ route('register') }}">Create your free account</a></div>
+<div class="request-list">
+@foreach($requests as $request)
+<div class="request-row"><div><h2>{{ $request['title'] }}</h2><p>{{ $request['client'] }} <span class="status-label">{{ $request['status'] }}</span></p></div><div class="request-progress"><progress value="{{ $request['submitted'] }}" max="{{ $request['total'] }}" aria-label="Items submitted"></progress><span>{{ $request['submitted'] }} / {{ $request['total'] }} submitted</span></div><span>{{ $request['due'] }}</span></div>
+@endforeach
+</div>
+<section class="demo-request" aria-labelledby="demo-request-title">
+<div class="page-heading"><div><h2 id="demo-request-title">Website content</h2><p class="intro">ABC Restaurant</p></div><span class="status-label">In progress</span></div>
+<p class="request-description">Please share the following for your new website. You can save each item and return later.</p>
+<section class="answer-row"><h2>Reminders</h2><p>1 of 5 reminders sent. Every 3 days, in your business’s morning.</p><p class="field-help">Each reminder lists only what’s still missing. They stop once every required item is in.</p></section>
+@foreach($items as $item)
+<section class="answer-row"><div class="answer-heading"><h2>{{ $item['label'] }}</h2><span class="status-label">{{ $item['status'] }}</span></div>
+@if($item['help'])<p class="field-help">{{ $item['help'] }}</p>@endif
+@if($item['answer'])<p class="answer-value">{{ $item['answer'] }}</p>@else<p class="field-help">No answer yet.</p>@endif
+</section>
+@endforeach
+</section>
+<div class="demo-close"><a class="button" href="{{ route('register') }}">Start your first request</a></div>
+@endsection

@@ -1,0 +1,1 @@
+<tr><td><table class="footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation"><tr><td class="content-cell"><p class="footer-brand">AskOnce · A little less chasing.</p><p>© {{ date('Y') }} AskOnce<br><a href="{{ url('/privacy') }}">Privacy</a> · <a href="{{ url('/terms') }}">Beta terms</a></p></td></tr></table></td></tr>

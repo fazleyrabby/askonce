@@ -1,0 +1,78 @@
+x-app: &app
+  image: askonce:local
+  env_file: .env.docker
+  restart: unless-stopped
+  volumes:
+    - uploads:/app/storage/app/private
+    - backups:/app/storage/app/backups
+  depends_on:
+    postgres:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+    mailpit:
+      condition: service_started
+
+services:
+  app:
+    <<: *app
+    build: .
+    healthcheck:
+      test: ["CMD", "php", "-r", "exit(@file_get_contents('http://127.0.0.1:8080/up') === false ? 1 : 0);"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    ports:
+      - "127.0.0.1:8080:8080"
+  worker:
+    <<: *app
+    command: ["php", "artisan", "horizon"]
+    healthcheck:
+      test: ["CMD", "php", "artisan", "horizon:status"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+  scheduler:
+    <<: *app
+    command: ["php", "artisan", "schedule:work"]
+    healthcheck:
+      test: ["CMD", "php", "-r", "exit(str_contains(file_get_contents('/proc/1/cmdline'), 'schedule:work') ? 0 : 1);"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: askonce
+      POSTGRES_USER: askonce
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U askonce -d askonce"]
+      interval: 5s
+      retries: 10
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 10
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "127.0.0.1:8025:8025"
+    restart: unless-stopped
+
+volumes:
+  postgres:
+  redis:
+  uploads:
+  backups:
