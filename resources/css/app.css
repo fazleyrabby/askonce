@@ -173,3 +173,22 @@ div.request-row:hover { background:none; }
 .demo-start .intro { max-width:58ch; margin-bottom:0; }
 .demo-banner a { font-weight:600; }
 @media(max-width:640px) { .visits { float:none; display:block; margin-top:10px; } }
+
+.quiet-button { display:inline-flex; align-items:center; min-height:38px; padding:8px 14px; border:1px solid #aeb8ae; border-radius:6px; background:transparent; color:var(--ink); font:500 13px/1.5 var(--font-sans); cursor:pointer; transition:background .18s ease-out,border-color .18s ease-out; }
+.quiet-button:hover { background:#e1e9dd; border-color:var(--green); }
+.quiet-button:disabled { opacity:.55; cursor:wait; }
+.link-button { min-height:38px; padding:8px 0; border:0; background:none; color:var(--muted); font:inherit; font-size:13px; text-decoration:underline; text-underline-offset:4px; cursor:pointer; }
+.link-button:hover { color:var(--ink); }
+.link-button.danger { color:#853824; }
+.link-button.danger:hover { color:#5f2616; }
+.action-row { display:flex; align-items:center; flex-wrap:wrap; gap:10px 16px; margin-top:16px; }
+.action-row .link-button { margin-left:8px; }
+.share-panel .quiet-button { margin-top:6px; background:#fff; }
+.request-summary { max-width:320px; margin:20px 0 8px; }
+.status-pill { flex-shrink:0; padding:3px 9px; border-radius:4px; font-size:12px; font-weight:600; text-transform:capitalize; white-space:nowrap; background:#ecebe5; color:var(--muted); }
+.status-pill-submitted { background:#dce8da; color:#234d37; }
+.answer-heading { align-items:flex-start; }
+.request-actions { align-items:center; gap:12px 24px; padding-top:8px; }
+.request-actions-danger { margin-left:auto; }
+@media(max-width:640px) { .request-actions-danger { margin-left:0; flex-basis:100%; } .action-row .link-button { margin-left:0; } }
+
