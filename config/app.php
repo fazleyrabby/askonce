@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'telemetry_enabled' => env('TELEMETRY_ENABLED', false),
     'backups_enabled' => env('BACKUPS_ENABLED', false),
 
     /*

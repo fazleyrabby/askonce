@@ -70,6 +70,7 @@ class BetaLimitsTest extends TestCase
 
     public function test_a_request_can_be_emailed_only_once_an_hour(): void
     {
+        $this->travelTo(now()->startOfDay()->hour(12)->minute(58));
         $request = $this->sentRequest();
         $this->post(route('requests.email', $request))->assertSessionHasNoErrors();
         $this->travel(5)->minutes();

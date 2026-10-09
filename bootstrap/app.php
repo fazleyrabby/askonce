@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\RequestTelemetry;
 use App\Http\Middleware\SetOrganization;
 use App\Http\Middleware\UseCloudflareClientIp;
 use Illuminate\Foundation\Application;
@@ -22,6 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->trustProxies(at: env('TRUSTED_PROXIES'));
         $middleware->append(UseCloudflareClientIp::class);
+        $middleware->append(RequestTelemetry::class);
         $middleware->alias(['organization' => SetOrganization::class]);
         $middleware->prependToPriorityList(SubstituteBindings::class, SetOrganization::class);
     })
@@ -36,6 +38,9 @@ return Application::configure(basePath: dirname(__DIR__))
             return null;
         });
         $exceptions->respond(function (Response $response): Response {
+            if (request()->attributes->has('request_id')) {
+                $response->headers->set('X-Request-ID', request()->attributes->get('request_id'));
+            }
             if (request()->is('r/*')) {
                 $response->headers->set('Referrer-Policy', 'no-referrer');
                 $response->headers->set('X-Robots-Tag', 'noindex, nofollow');

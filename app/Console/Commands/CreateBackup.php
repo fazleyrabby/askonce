@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Process\Process;
 use Throwable;
@@ -71,6 +72,7 @@ class CreateBackup extends Command
                     fclose($stream);
                 }
             }
+            Log::info('backup.created', ['event' => 'backup.created', 'offsite' => (bool) $disk, 'archive_bytes' => filesize($archive)]);
             $this->info('Backup created: '.$archive);
             if (! $disk) {
                 $this->warn('Local copy only. Configure a separate off-site destination before beta.');
@@ -78,6 +80,7 @@ class CreateBackup extends Command
 
             return self::SUCCESS;
         } catch (Throwable $exception) {
+            Log::error('backup.failed', ['event' => 'backup.failed', 'exception_type' => $exception::class]);
             $this->error('Backup failed. Check database tools and private backup storage.');
 
             return self::FAILURE;

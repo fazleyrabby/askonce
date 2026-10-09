@@ -12,3 +12,5 @@ Artisan::command('inspire', function () {
 
 Schedule::command('askonce:purge-demos')->hourly()->withoutOverlapping();
 Schedule::command('askonce:backup')->dailyAt('02:00')->when(fn () => config('app.backups_enabled'))->withoutOverlapping();
+
+Schedule::command('askonce:health --heartbeat')->everyFiveMinutes()->withoutOverlapping();

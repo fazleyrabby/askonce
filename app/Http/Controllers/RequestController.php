@@ -83,7 +83,7 @@ class RequestController extends Controller
             $request = ClientRequest::lockForUpdate()->findOrFail($clientRequest->id);
             abort_unless($request->isEditable() && ! $request->reminders_stopped_reason, 409, 'Email delivery is stopped for this request.');
             $key = 'request:'.$request->id.':'.$request->delivery_generation.':'.now()->format('YmdH');
-            if (DB::table('reminders')->where('delivery_key', $key)->exists()) {
+            if (DB::table('reminders')->where('client_request_id', $request->id)->where('kind', 'request')->where('generation', $request->delivery_generation)->where('created_at', '>', now()->subHour())->exists()) {
                 return 'This request was already emailed in the last hour. Try again later.';
             }
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Logging\ProductionLogTap;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -100,6 +101,14 @@ return [
                 'connectionString' => 'tls://'.env('PAPERTRAIL_URL').':'.env('PAPERTRAIL_PORT'),
             ],
             'processors' => [PsrLogMessageProcessor::class],
+        ],
+
+        'production' => [
+            'driver' => 'monolog',
+            'handler' => StreamHandler::class,
+            'handler_with' => ['stream' => 'php://stderr'],
+            'level' => env('LOG_LEVEL', 'info'),
+            'tap' => [ProductionLogTap::class],
         ],
 
         'stderr' => [
